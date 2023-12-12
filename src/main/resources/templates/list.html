@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список нотаток</title>
+
+    <!-- Посилання на Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Список нотаток</h2>
+
+    <!-- Виведення нотаток у вигляді таблиці -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Заголовок</th>
+            <th scope="col">Контент</th>
+            <th scope="col">Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="note : ${notes}">
+            <td th:text="${note.title}"></td>
+            <td th:text="${note.content}"></td>
+            <td>
+                <!-- Додавання кнопок для редагування та видалення -->
+                <a th:href="@{'/note/edit/' + ${note.id}}" class="btn btn-primary btn-sm">Edit</a>
+                <form th:action="@{'/note/delete'}" method="post" style="display: inline;">
+                    <input type="hidden" name="id" th:value="${note.id}" />
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<!-- Посилання на Bootstrap JS та Popper.js (потрібно для деяких Bootstrap функцій) -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

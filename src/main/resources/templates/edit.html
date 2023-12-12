@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редагування нотатки</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">Редагування нотатки</h2>
+
+    <!-- Форма для редагування нотатки -->
+    <form th:action="@{'/note/edit/' + ${note.id}}" method="post">
+        <!-- Поле для введення заголовка -->
+        <div class="form-group">
+            <label for="title">Заголовок:</label>
+            <input type="text" class="form-control" id="title" name="title" th:value="${note.title}" required>
+        </div>
+
+        <!-- Поле для введення контенту -->
+        <div class="form-group">
+            <label for="content">Контент:</label>
+            <textarea class="form-control" id="content" name="content" rows="4" th:text="${note.content}" required></textarea>
+        </div>
+
+        <!-- Кнопка для відправки форми -->
+        <button type="submit" class="btn btn-primary">Зберегти зміни</button>
+    </form>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>

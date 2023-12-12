@@ -39,4 +39,10 @@ public class NoteService {
             return notes.get(id);
         } else throw new NullPointerException("Couldn't find a note with this id " + id);
     }
+
+    public NoteService () {
+        add(new Note("First note", "Content in first note"));
+        add(new Note("Second note", "Content in second note"));
+        add(new Note("Third note", "Content in third note"));
+    }
 }
