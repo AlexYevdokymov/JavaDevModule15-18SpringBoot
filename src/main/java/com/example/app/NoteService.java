@@ -1,48 +1,44 @@
 package com.example.app;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@RequiredArgsConstructor
 @Service
 public class NoteService {
-    private final Map<Long, Note> notes = new HashMap<>();
+    private final NoteRepository repository;
     public List<Note> listAll() {
-        return new ArrayList<Note>(notes.values());
+        return repository.findAll();
     }
 
-    public Note add(Note note) {
-        long id;
-        if (note.getId() == 0) {
-            id = new Random().nextLong();
-            note.setId(id);
-        } else id = note.getId();
-        notes.put(id,note);
-    return note;
+    public void add(Note note) {
+        repository.save(note);
     }
 
     public void deleteById (long id) {
-        if (notes.containsKey(id)) {
-            notes.remove(id);
+        if(repository.existsById(id)) {
+            repository.deleteById(id);
         } else throw new NullPointerException("Couldn't find a note with this id " + id);
     }
 
     public void update(Note note) {
         long noteId = note.getId();
-        if (notes.containsKey(noteId)) {
-            notes.put(noteId, note);
+        if (repository.existsById(noteId)) {
+            repository.save(note);
         } else throw new NullPointerException("Couldn't find a note with this id " + noteId);
     }
 
     public Note getById (long id) {
-        if (notes.containsKey(id)) {
-            return notes.get(id);
-        } else throw new NullPointerException("Couldn't find a note with this id " + id);
+        Note result = repository.findById(id).orElse(null);
+        if (result != null) return result;
+        else throw new NullPointerException("Couldn't find a note with this id " + id);
     }
 
-    public NoteService () {
-        add(new Note("First note", "Content in first note"));
-        add(new Note("Second note", "Content in second note"));
-        add(new Note("Third note", "Content in third note"));
-    }
+//    public NoteService () {
+//        add(new Note("First note", "Content in first note"));
+//        add(new Note("Second note", "Content in second note"));
+//        add(new Note("Third note", "Content in third note"));
+//    }
 }

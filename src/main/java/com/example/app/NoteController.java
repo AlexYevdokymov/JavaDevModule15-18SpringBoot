@@ -9,7 +9,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/note")
 public class NoteController {
-    NoteService noteService = new NoteService();
+    private final NoteService noteService;
+
+    public NoteController(NoteService noteService) {
+        this.noteService = noteService;
+    }
 
     @GetMapping("/list")
     public String getNotes(Model model) {
@@ -32,5 +36,16 @@ public class NoteController {
     public String postEditedNote(@ModelAttribute Note updatedNote) {
         noteService.update(updatedNote);
         return "redirect:/note/list";
+    }
+    @GetMapping("/add")
+    public String createNote(Model model) {
+        model.addAttribute("note", new Note());
+        return "add";
+    }
+
+    @PostMapping("/add")
+    public String postNote(@ModelAttribute Note note) {
+        noteService.add(note);
+        return "redirect:/note/list"; // Перенаправлення на сторінку зі списком нотаток
     }
 }
